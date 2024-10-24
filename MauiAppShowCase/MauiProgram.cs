@@ -16,20 +16,23 @@ namespace MauiAppShowCase
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            string dbPath = FileAccessHelper.GetLocalFilePath("peopledb1.db3");
+            builder.Services.AddSingleton<PersonRepository>
+                (s => ActivatorUtilities.CreateInstance<PersonRepository>(s,dbPath));   
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-		builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
-        builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
-        builder.Services.AddSingleton<IMap>(Map.Default);
+		    builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+            builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
+            builder.Services.AddSingleton<IMap>(Map.Default);
 
-        builder.Services.AddSingleton<UserService>();
+            builder.Services.AddSingleton<UserService>();
 
-		builder.Services.AddSingleton<UsersViewModel>();
-		builder.Services.AddTransient<UserDetailsViewModel>();
+		    builder.Services.AddSingleton<UsersViewModel>();
+		    builder.Services.AddTransient<UserDetailsViewModel>();
 
-		builder.Services.AddSingleton<MainPage>();
-		builder.Services.AddTransient<DetailsPage>();
+		    builder.Services.AddSingleton<MainPage>();
+		    builder.Services.AddTransient<DetailsPage>();
 
             return builder.Build();
         }

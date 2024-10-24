@@ -11,7 +11,7 @@
 
     <Grid ColumnDefinitions="*,*"
           ColumnSpacing="0"
-          RowDefinitions="*,Auto"
+          RowDefinitions="*,Auto,40"
           RowSpacing="0">
         <RefreshView Grid.ColumnSpan="2"
                      Command="{Binding GetUsersCommand}"
@@ -19,10 +19,6 @@
             <CollectionView BackgroundColor="Transparent"
                 ItemsSource="{Binding Users}"
                 SelectionMode="None">
-                <!--<CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                                 Span="{OnIdiom Desktop=1,Default=3}"/>
-                </CollectionView.ItemsLayout>-->
                 <CollectionView.EmptyView>
                     <StackLayout VerticalOptions="Center"
                                  HorizontalOptions="Center"
@@ -82,6 +78,14 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="8"/>
+        
+        <Button Text="AddPerson"
+                Style="{StaticResource ButtonOutline}"
+                Command="{Binding AddUserCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="8"/>    
 
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}"
