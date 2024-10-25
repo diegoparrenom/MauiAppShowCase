@@ -64,4 +64,10 @@
 		<PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="2.1.10" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="View\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

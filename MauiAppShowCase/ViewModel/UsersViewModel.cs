@@ -1,5 +1,6 @@
 ﻿
 using MauiAppShowCase.Services;
+using MauiAppShowCase.View;
 
 namespace MauiAppShowCase.ViewModel;
 
@@ -122,8 +123,6 @@ public partial class UsersViewModel : BaseViewModel
 
             await Shell.Current.DisplayAlert("Mssg:", test, "OK");
 
-
-
         }
         catch (Exception ex)
         {
@@ -136,5 +135,10 @@ public partial class UsersViewModel : BaseViewModel
             IsBusy = false;
             IsRefreshing = false;
         }
+    }
+    [RelayCommand]
+    async Task GetLoginPage()
+    {
+        await Shell.Current.GoToAsync($"{nameof(LoginPage)}", true);
     }
 }

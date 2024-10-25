@@ -8,6 +8,12 @@
              Title ="{Binding Title}"
              ios:Page.UseSafeArea="True"
              x:Class="MauiAppShowCase.View.MainPage">
+    <Shell.TitleView >
+        <HorizontalStackLayout>
+            <Label FontSize="20" Margin="10" WidthRequest="250" Text="{Binding Title}" />
+            <Button FontSize="15" Text="Manage" WidthRequest="100" Command="{Binding GetLoginPageCommand}" HorizontalOptions="End" BackgroundColor="Aqua"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
 
     <Grid ColumnDefinitions="*,*"
           ColumnSpacing="0"
