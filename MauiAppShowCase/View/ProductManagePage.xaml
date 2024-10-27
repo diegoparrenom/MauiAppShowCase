@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiAppShowCase.View.ProductManagePage"
+             xmlns:model="clr-namespace:MauiAppShowCase.Model"
+             xmlns:viewmodel ="clr-namespace:MauiAppShowCase.ViewModel"
+             x:DataType="viewmodel:ProductManageViewModel"
+             Title="ProductManagePage">
+    <VerticalStackLayout>
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="40,*,*,*"
+              Margin="5">
+            <Label Grid.Row="0" 
+                   Grid.ColumnSpan="2"
+                   Text="Product Registration"
+                   Style="{StaticResource LargeLabel}"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center" />  
+
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Text="Name"
+                   Style="{StaticResource MediumLabel}"/>
+            <Entry Grid.Row="1"
+                   Grid.Column="1"
+                   Text="{Binding Product.Name}"/>
+            
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   Text="Description"
+                   Style="{StaticResource MediumLabel}"/>
+            <Entry Grid.Row="2"
+                   Grid.Column="1"
+                   Text="{Binding Product.Description}"/>
+
+            <Button Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="5"
+                    Text="Guardar"
+                    Command="{Binding AddProductCommand}"/>
+
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

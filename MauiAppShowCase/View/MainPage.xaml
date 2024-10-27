@@ -4,7 +4,7 @@
              xmlns:model="clr-namespace:MauiAppShowCase.Model"
              xmlns:viewmodel ="clr-namespace:MauiAppShowCase.ViewModel"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
-             x:DataType="viewmodel:UsersViewModel"
+             x:DataType="viewmodel:ProductsViewModel"
              Title ="{Binding Title}"
              ios:Page.UseSafeArea="True"
              x:Class="MauiAppShowCase.View.MainPage">
@@ -23,7 +23,7 @@
                      Command="{Binding GetUsersCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <CollectionView BackgroundColor="Transparent"
-                ItemsSource="{Binding Users}"
+                ItemsSource="{Binding Products}"
                 SelectionMode="None">
                 <CollectionView.EmptyView>
                     <StackLayout VerticalOptions="Center"
@@ -37,29 +37,24 @@
                     </StackLayout>
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType ="model:User">
+                    <DataTemplate x:DataType ="model:Product">
                         <Grid Padding="10"  >
                             <Frame HeightRequest="125"
                                Padding="0" 
                                Style="{StaticResource CardView}">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer CommandParameter="{Binding .}"
-                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:UsersViewModel}}, Path=GoToDetailsCommand}"/>
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProductsViewModel}}, Path=GoToDetailsCommand}"/>
                                 </Frame.GestureRecognizers>
                                 <Grid Padding="0"
                                     ColumnDefinitions="125,*">
-                                    <Image Aspect="AspectFill"
-                                       Source="{Binding avatar}"
-                                       WidthRequest="125"
-                                       HeightRequest="125"
-                                       />   
                                     <VerticalStackLayout Grid.Column="1"
                                                  Padding="10"
                                                  VerticalOptions="Center">
-                                        <Label Text="{Binding first_name}"
+                                        <Label Text="{Binding Name}"
                                             Style="{StaticResource LargeLabel}"/>
-                                        <Label Text="{Binding last_name}"
-                                            Style="{StaticResource LargeLabel}"/>
+                                        <Label Text="{Binding Description}"
+                                            Style="{StaticResource MediumLabel}"/>
                                     </VerticalStackLayout>
                                 </Grid>
                             </Frame>
@@ -85,14 +80,6 @@
                 Grid.Column="1"
                 Margin="8"/>
         
-        <Button Text="AddPerson"
-                Style="{StaticResource ButtonOutline}"
-                Command="{Binding AddUserCommand}"
-                IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="2"
-                Grid.Column="0"
-                Margin="8"/>    
-
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="FillAndExpand"

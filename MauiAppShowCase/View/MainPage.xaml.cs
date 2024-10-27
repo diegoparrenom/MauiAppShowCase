@@ -2,11 +2,12 @@
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(UsersViewModel viewModel)
+	public MainPage(ProductsViewModel viewModel)
 	{
 		InitializeComponent();
 
 		BindingContext = viewModel;
-	}
+
+    }
 }
 

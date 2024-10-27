@@ -17,8 +17,8 @@ namespace MauiAppShowCase
                 });
 
             string dbPath = FileAccessHelper.GetLocalFilePath("peopledb1.db3");
-            builder.Services.AddSingleton<PersonRepository>
-                (s => ActivatorUtilities.CreateInstance<PersonRepository>(s,dbPath));   
+            builder.Services.AddSingleton<ProductRepository>
+                (s => ActivatorUtilities.CreateInstance<ProductRepository>(s,dbPath));   
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
@@ -28,11 +28,15 @@ namespace MauiAppShowCase
 
             builder.Services.AddSingleton<UserService>();
 
-		    builder.Services.AddSingleton<UsersViewModel>();
-		    builder.Services.AddTransient<UserDetailsViewModel>();
+		    builder.Services.AddSingleton<ProductsViewModel>();
+            builder.Services.AddSingleton<LoginViewModel>();
+            builder.Services.AddTransient<UserDetailsViewModel>();
+            builder.Services.AddSingleton<ProductManageViewModel>();
 
-		    builder.Services.AddSingleton<MainPage>();
-		    builder.Services.AddTransient<DetailsPage>();
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddTransient<DetailsPage>();
+            builder.Services.AddTransient<ProductManagePage>();
 
             return builder.Build();
         }

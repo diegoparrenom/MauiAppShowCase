@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MauiAppShowCase.Services
 {
-    public class PersonRepository
+    public class ProductRepository
     {
         string _dbPath;
         public string StatusMessage { get; set; }
@@ -19,14 +19,26 @@ namespace MauiAppShowCase.Services
             if (conn is not null)
                 return;
             conn = new(_dbPath);
-            conn.CreateTable<Person>();
+            conn.CreateTable<Product>();
+
+            //Shell.Current.DisplayAlert("Mssg:", "Iniatialized !!", "OK");
+
+            //add default product
+            AddNewProduct("DefaultProduct", "Default Description");
+
+            //var list = conn.Table<Product>().Where(x => x.Name != "DefaultProduct").ToList();
+            //for (int i = 0; i < list.Count; i++)
+            //{
+            //    conn.Delete(list[i]);
+            //}
+
         }
-        public PersonRepository(string dbPath)
+        public ProductRepository(string dbPath)
         {
             _dbPath = dbPath;
 
         }
-        public void AddNewPerson(string name)
+        public void AddNewProduct(string name,string description)
         {
             int result = 0;
             try
@@ -36,8 +48,8 @@ namespace MauiAppShowCase.Services
                 if (string.IsNullOrEmpty(name))
                     throw new Exception("Valid Name required");
 
-                Person person = new() {Name = name};
-                result = conn.Insert(person);
+                Product product = new() {Name = name,Description = description};
+                result = conn.Insert(product);
 
                 StatusMessage = string.Format("{0} records added (Name: {1}", result, name);
             }
@@ -46,18 +58,26 @@ namespace MauiAppShowCase.Services
                 StatusMessage = string.Format("Failed to add {0} .Error: {1}", name, ex.Message);
             }
         }
-        public List<Person> GetAllPeople()
+        public List<Product> GetAllProducts()
         {
             try
             {
                 Init();
-                return conn.Table<Person>().ToList();
+                return conn.Table<Product>().ToList();
             }
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}",ex.Message);
             }
-            return new List<Person>();
+            return new List<Product>();
+        }
+
+        public bool LoginValidation(string name,string pass)
+        {
+            if (name == "Diego" && pass == "123")
+                return true;
+            else
+                return false;
         }
     }
 }
