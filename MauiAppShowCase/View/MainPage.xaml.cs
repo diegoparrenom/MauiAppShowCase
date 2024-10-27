@@ -1,5 +1,6 @@
 ﻿namespace MauiAppShowCase.View;
 
+
 public partial class MainPage : ContentPage
 {
 	public MainPage(ProductsViewModel viewModel)
@@ -8,6 +9,10 @@ public partial class MainPage : ContentPage
 
 		BindingContext = viewModel;
 
+    }
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
     }
 }
 

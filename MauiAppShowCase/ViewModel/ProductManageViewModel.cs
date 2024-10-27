@@ -21,11 +21,12 @@ public partial class ProductManageViewModel : BaseViewModel
     {
         productRepository.AddNewProduct(Product.Name, Product.Description);
 
+        List<Product> productos = productRepository.GetAllProducts();
 
-        //productRepository.GetAllProducts();
-        //await Shell.Current.Navigation.PopAsync();
-
-        await Shell.Current.GoToAsync("//MainPage", false);
-        
+        await Shell.Current.GoToAsync("//MainPage", false,
+            new Dictionary<string, object>
+            {
+                {"ProductsItems",productos }
+            });
     }
 }

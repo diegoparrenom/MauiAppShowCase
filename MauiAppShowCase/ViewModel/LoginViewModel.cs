@@ -23,7 +23,6 @@ public partial class LoginViewModel : BaseViewModel
     {
 
         if(productRepository.LoginValidation(Login_name, Login_pass)) { 
-            await Shell.Current.DisplayAlert("Internet Issue!","Login OK!!", "OK");
 
             await Shell.Current.GoToAsync($"{nameof(ProductManagePage)}", true);
         }

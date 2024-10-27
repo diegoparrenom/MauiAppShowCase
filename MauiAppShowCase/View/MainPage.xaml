@@ -23,7 +23,7 @@
                      Command="{Binding GetUsersCommand}"
                      IsRefreshing="{Binding IsRefreshing}">
             <CollectionView BackgroundColor="Transparent"
-                ItemsSource="{Binding Products}"
+                ItemsSource="{Binding Productos}"
                 SelectionMode="None">
                 <CollectionView.EmptyView>
                     <StackLayout VerticalOptions="Center"

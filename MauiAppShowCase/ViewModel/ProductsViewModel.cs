@@ -5,6 +5,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace MauiAppShowCase.ViewModel;
 
+[QueryProperty("Productos", "ProductsItems")]
 public partial class ProductsViewModel : BaseViewModel
 {
 
@@ -14,6 +15,9 @@ public partial class ProductsViewModel : BaseViewModel
     public ObservableCollection<User> Users { get; } = new();
 
     public ObservableCollection<Product> Products { get; } = new();
+
+    [ObservableProperty]
+    List<Product> productos;
 
     IConnectivity connectivity;
     IGeolocation geolocation;
@@ -27,8 +31,9 @@ public partial class ProductsViewModel : BaseViewModel
         this.geolocation = geolocation;
         this.productRepository = productRepository;
 
-        GetAllProducts();
+        FillInitProducts();
     }
+
 
     [ObservableProperty]
     bool isRefreshing;
@@ -108,37 +113,15 @@ public partial class ProductsViewModel : BaseViewModel
         await Shell.Current.GoToAsync($"{nameof(LoginPage)}", true);
     }
 
-    void GetAllProducts()
+    void FillInitProducts()
     {
-        if (IsBusy)
-            return;
+        List<Product> productos = productRepository.GetAllProducts();
 
-        try
-        {
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
+        Shell.Current.GoToAsync("//MainPage", false,
+            new Dictionary<string, object>
             {
-                Shell.Current.DisplayAlert("Internet Issue!",
-                     $"Check your internet and try again!", "OK");
-                return;
-            }
-            IsBusy = true;
-
-            var products_ = productRepository.GetAllProducts();
-
-            foreach (var product_ in products_)
-                Products.Add(product_);
-
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-            Shell.Current.DisplayAlert("Error!",
-                $"Unable to get Users: {ex.Message}", "OK");
-        }
-        finally
-        {
-            IsBusy = false;
-            IsRefreshing = false;
-        }
+                {"ProductsItems",productos }
+            });
     }
+
 }
