@@ -79,5 +79,13 @@ namespace MauiAppShowCase.Services
             else
                 return false;
         }
+        public void DeleteProducts()
+        {
+            var list = conn.Table<Product>().Where(x => x.Name != "DefaultProduct").ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                conn.Delete(list[i]);
+            }
+        }
     }
 }

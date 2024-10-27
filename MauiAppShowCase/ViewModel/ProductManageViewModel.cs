@@ -20,7 +20,18 @@ public partial class ProductManageViewModel : BaseViewModel
     async Task AddProduct()
     {
         productRepository.AddNewProduct(Product.Name, Product.Description);
+        await UpdateMainPage();
 
+    }
+    [RelayCommand]
+    async Task ClearList()
+    {
+        productRepository.DeleteProducts();
+        await UpdateMainPage();
+    }
+
+    async Task UpdateMainPage()
+    {
         List<Product> productos = productRepository.GetAllProducts();
 
         await Shell.Current.GoToAsync("//MainPage", false,

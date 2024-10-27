@@ -38,7 +38,11 @@
                     Margin="5"
                     Text="Guardar"
                     Command="{Binding AddProductCommand}"/>
-
+            <Button Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="5"
+                    Text="Limpiar Listo"
+                    Command="{Binding ClearListCommand}"/>
 
         </Grid>
     </VerticalStackLayout>
