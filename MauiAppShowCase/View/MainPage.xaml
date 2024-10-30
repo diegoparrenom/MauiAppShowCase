@@ -15,70 +15,47 @@
         </HorizontalStackLayout>
     </Shell.TitleView>
 
-    <Grid ColumnDefinitions="*,*"
+    <Grid ColumnDefinitions="*"
           ColumnSpacing="0"
-          RowDefinitions="*,Auto,40"
+          RowDefinitions="60,auto,*,*"
           RowSpacing="0">
-        <RefreshView Grid.ColumnSpan="2"
-                     Command="{Binding GetUsersCommand}"
-                     IsRefreshing="{Binding IsRefreshing}">
-            <CollectionView BackgroundColor="Transparent"
-                ItemsSource="{Binding Productos}"
-                SelectionMode="None">
-                <CollectionView.EmptyView>
-                    <StackLayout VerticalOptions="Center"
-                                 HorizontalOptions="Center"
-                                 WidthRequest="200"
-                                 HeightRequest="200">
-                        <Image Source="nodata.png"
-                               HorizontalOptions="CenterAndExpand"
-                               VerticalOptions="CenterAndExpand"
-                               Aspect="AspectFill"/>
-                    </StackLayout>
-                </CollectionView.EmptyView>
+        <Label Grid.Row="0" Text="PRODUCTOS EN VENTA"
+               VerticalOptions="Center"
+            FontAttributes="Bold" Style="{StaticResource LargeLabel}"/>
+        
+        
+        <ScrollView Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Productos}"
+             VerticalOptions="Start"
+             ItemsLayout="HorizontalList">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType ="model:Product">
-                        <Grid Padding="10"  >
-                            <Frame HeightRequest="125"
-                               Padding="0" 
-                               Style="{StaticResource CardView}">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{Binding .}"
-                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProductsViewModel}}, Path=GoToDetailsCommand}"/>
-                                </Frame.GestureRecognizers>
-                                <Grid Padding="0"
-                                    ColumnDefinitions="125,*">
-                                    <VerticalStackLayout Grid.Column="1"
-                                                 Padding="10"
-                                                 VerticalOptions="Center">
-                                        <Label Text="{Binding Name}"
-                                            Style="{StaticResource LargeLabel}"/>
-                                        <Label Text="{Binding Description}"
-                                            Style="{StaticResource MediumLabel}"/>
-                                    </VerticalStackLayout>
-                                </Grid>
-                            </Frame>
-                        </Grid>
+                    <DataTemplate  x:DataType ="model:Product">
+                        <Frame WidthRequest="150" 
+                               Padding="2"  Margin="2"
+                            Style="{StaticResource CardView}">
+                            <Grid ColumnDefinitions="*"
+                                 RowDefinitions="100,25,50">
+                                <Image Grid.Row="0"
+                                     Aspect="AspectFill"
+                                     HeightRequest="100"
+                                     WidthRequest="100"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Source="{Binding Imagen}"/>
+                                <Label Grid.Row="1"
+                                     Text="{Binding Nombre}"
+                                     FontAttributes="Bold" 
+                                     Style="{StaticResource MediumLabel}"/>
+                                <Label Grid.Row="2"
+                                     Text="{Binding PrecioVenta,StringFormat='S/.{0}'}"
+                                     FontAttributes="Bold" 
+                                     Style="{StaticResource SmallLabel}"/>
+                            </Grid>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </RefreshView>
-        
-
-        <Button Text="Get Users"
-                Style="{StaticResource ButtonOutline}"
-                Command="{Binding GetUsersCommand}"
-                IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="1"
-                Margin="8"/>
-
-        <Button Text="Find Closest"
-                Style="{StaticResource ButtonOutline}"
-                Command="{Binding GetClosestUserCommand}"
-                IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="8"/>
+        </ScrollView>
         
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}"

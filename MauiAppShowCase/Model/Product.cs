@@ -7,17 +7,25 @@ using SQLite;
 
 
 namespace MauiAppShowCase.Model;
-[Table("product")]
+[Table("Product")]
 
 public class Product
 {
     [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
-
-    [MaxLength(150), Unique]
-    public string Name { get; set; }
-
+    public int Id_Producto {  get; set; }
+    public int Id_Talla {  get; set; }
+    public int Id_Genero {  get; set; }
+    public int Id_Categoria { get; set; }
     [MaxLength(150)]
-    public string Description { get; set; }
+    public string Nombre { get; set; }
+    [MaxLength(150)]
+    public string Descripcion { get; set; }
+    [MaxLength(150)]
+    public string Imagen {  get; set; }
+    public float PrecioAlquiler {  get; set; }
+    public float PrecioVenta {  get; set; }
+
+
+
 }
 

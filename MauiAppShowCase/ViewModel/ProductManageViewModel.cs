@@ -19,7 +19,7 @@ public partial class ProductManageViewModel : BaseViewModel
     [RelayCommand]
     async Task AddProduct()
     {
-        productRepository.AddNewProduct(Product.Name, Product.Description);
+        productRepository.AddNewProduct(Product.Nombre, Product.Descripcion);
         await UpdateMainPage();
 
     }
