@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static SQLite.SQLite3;
 using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
+using Microsoft.Maui.Controls;
 
 namespace MauiAppShowCase.Services
 {
@@ -23,16 +25,6 @@ namespace MauiAppShowCase.Services
             conn = new(_dbPath);
             BuildDefaultBD();
 
-            //Shell.Current.DisplayAlert("Mssg:", "Iniatialized !!", "OK");
-
-            //add default product
-
-            //var list = conn.Table<Product>().Where(x => x.Name != "DefaultProduct").ToList();
-            //for (int i = 0; i < list.Count; i++)
-            //{
-            //    conn.Delete(list[i]);
-            //}
-
         }
         private void BuildDefaultBD()
         {
@@ -48,27 +40,38 @@ namespace MauiAppShowCase.Services
             conn.CreateTable<Genero>();
             conn.CreateTable<Categoria>();
 
-            conn.Execute("INSERT INTO Talla (Desc_Talla) VALUES('XL');" +
-                         "INSERT INTO Talla (Desc_Talla) VALUES('L');" +
-                         "INSERT INTO Talla (Desc_Talla) VALUES('M');" +
-                         "INSERT INTO Talla (Desc_Talla) VALUES('S')");
+            conn.Execute("INSERT INTO Talla (Desc_Talla) VALUES('XL'),('L'),('M'),('S')");
 
-            conn.Execute("INSERT INTO Genero (Desc_Genero) VALUES('Masculino');" +
-                         "INSERT INTO Genero (Desc_Genero) VALUES('Femenino')");
+            conn.Execute("INSERT INTO Genero (Desc_Genero) VALUES('Masculino'),('Femenino')");
 
-            conn.Execute("INSERT INTO Categoria (Desc_Categoria) VALUES('Vestidos');" +
-                         "INSERT INTO Categoria (Desc_Categoria) VALUES('Camisas');" +
-                         "INSERT INTO Categoria (Desc_Categoria) VALUES('Pantalones')");
+            conn.Execute("INSERT INTO Categoria (Desc_Categoria) VALUES('Vestidos'),('Camisas'),('Pantalones')");
 
-            conn.Execute(
-                "INSERT INTO Product (Id_Talla,Id_Genero,Id_Categoria,Nombre,Descripcion,Imagen,PrecioAlquiler,PrecioVenta) " +
-                "VALUES(1,1,3,'Pantalon Sport','pantalon para pasear'," +
-                "'https://img.freepik.com/fotos-premium/hacer-jogging_1056055-915.jpg?w=740',20.0,60.0);");
-            conn.Execute(
-                "INSERT INTO Product (Id_Talla,Id_Genero,Id_Categoria,Nombre,Descripcion,Imagen,PrecioAlquiler,PrecioVenta) " +
-                "VALUES(1,2,1,'Vestido Verano','Vestido ligero de caida natural'," +
-                "'https://img.freepik.com/foto-gratis/mujer-llevando-sundress_23-2150388738.jpg?ga=GA1.1.1812143323.1730241464&semt=ais_hybrid',40.0,110.0);");
+            conn.Insert(new Product(1, 1, 1, "Pantalon Sport", "pantalon para pasear", 
+                float.Parse("20.0"), float.Parse("20.0"), DateTime.Parse("2024-10-2"),
+                "https://img.freepik.com/fotos-premium/hacer-jogging_1056055-915.jpg?w=740"));
+
+            conn.Insert(new Product(1, 1, 2, "Camisa Larga Blanca", "Camisa Blanca elegante para de algodon", 
+                float.Parse("23.0"),float.Parse("74.0"), DateTime.Parse("2024-6-1"),
+                "https://img.freepik.com/fotos-premium/camisa-blanca-maniqui-maniqui_662214-730730.jpg?w=740"));
+
+            conn.Insert(new Product(1, 1, 2, "Camisa Corta", "Camisa Blanca elegante para de algodon",
+                float.Parse("25.0"), float.Parse("75.0"), DateTime.Parse("2024-6-1"),
+                "https://img.freepik.com/psd-premium/camiseta-gris-formato-psd-sobre-fondo-blanco_889056-102706.jpg?w=740"));
+
+            conn.Insert(new Product(2, 2, 2, "Blusa Celeste", "Blusa de primavera edicion limitada",
+                float.Parse("55.0"), float.Parse("175.0"), DateTime.Parse("2024-10-1"),
+                "https://img.freepik.com/foto-gratis/mujer-camisa-pantalon-azul-espacio-diseno-moda-casual_53876-104303.jpg?t=st=1730390322~exp=1730393922~hmac=765d7ed164f8694578eec57bc09d04ad6ab9ba306652273fcab7e84d3b139aa3&w=360"));
+
+            conn.Insert(new Product(2, 2, 1, "Vestido Verano", "Vestido ligero de caida natural",
+                float.Parse("40.0"), float.Parse("110.0"), DateTime.Parse("2024-10-1"),
+                "https://img.freepik.com/foto-gratis/mujer-llevando-sundress_23-2150388738.jpg?ga=GA1.1.1812143323.1730241464&semt=ais_hybrid"));
+
+            conn.Insert(new Product(2, 2, 1, "Vestido Verde", "Vestido Cocktail de Temporada",
+                float.Parse("70.0"), float.Parse("150.0"), DateTime.Parse("2024-5-1"),
+                "https://media.istockphoto.com/id/492462644/es/foto/vestido-verde-con-cinta.jpg?s=1024x1024&w=is&k=20&c=ulMQflxiLEcXHT_tRtgRXmAnZE52gFgevbqCFtVfNWM="));
+
             }
+
             catch (Exception ex)
             {
 
@@ -110,6 +113,40 @@ namespace MauiAppShowCase.Services
             catch (Exception ex)
             {
                 StatusMessage = string.Format("Failed to retrieve data. {0}",ex.Message);
+            }
+            return new List<Product>();
+        }
+
+        public List<Product> GetNewProducts()
+        {
+            try
+            {
+                Init();
+                DateTime MinimumDate = new(2024, 8, 1);
+                DateTime MaximumDate = new(2024, 12, 1);
+
+                return conn.Table<Product>().Where(i => i.FechaIngreso >= MinimumDate && i.FechaIngreso <= MaximumDate).ToList();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
+            }
+            return new List<Product>();
+        }
+
+        public List<Product> GetWomanProducts()
+        {
+            try
+            {
+                Init();
+
+                int id = conn.Table<Genero>().Where(i => i.Desc_Genero == "Femenino").First().Id_Genero;
+
+                return conn.Table<Product>().Where(i => i.Id_Genero == id).ToList();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = string.Format("Failed to retrieve data. {0}", ex.Message);
             }
             return new List<Product>();
         }

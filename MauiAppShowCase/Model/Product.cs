@@ -24,7 +24,26 @@ public class Product
     public string Imagen {  get; set; }
     public float PrecioAlquiler {  get; set; }
     public float PrecioVenta {  get; set; }
+    public DateTime FechaIngreso { get; set; }
 
+    public Product()
+    {
+
+    }
+    public Product(int id_Talla, int id_Genero, int id_Categoria,
+        string nombre, string descripcion, float precioAlquiler, 
+        float precioVenta,DateTime fechaIngreso, string imagen)
+    {
+        this.Id_Talla = id_Talla;
+        this.Id_Genero = id_Genero;
+        this.Id_Categoria = id_Categoria;   
+        this.Nombre = nombre;
+        this.Descripcion = descripcion; 
+        this.Imagen = imagen;   
+        this.PrecioAlquiler = precioAlquiler;
+        this.PrecioVenta = precioVenta;
+        this.FechaIngreso = fechaIngreso;   
+    }
 
 
 }

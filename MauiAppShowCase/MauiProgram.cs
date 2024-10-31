@@ -26,16 +26,12 @@ namespace MauiAppShowCase
             builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
             builder.Services.AddSingleton<IMap>(Map.Default);
 
-            builder.Services.AddSingleton<UserService>();
-
 		    builder.Services.AddSingleton<ProductsViewModel>();
             builder.Services.AddSingleton<LoginViewModel>();
-            builder.Services.AddTransient<UserDetailsViewModel>();
             builder.Services.AddSingleton<ProductManageViewModel>();
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<LoginPage>();
-            builder.Services.AddTransient<DetailsPage>();
             builder.Services.AddTransient<ProductManagePage>();
 
             return builder.Build();

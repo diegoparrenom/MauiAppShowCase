@@ -6,27 +6,31 @@ using static System.Net.Mime.MediaTypeNames;
 namespace MauiAppShowCase.ViewModel;
 
 [QueryProperty("Productos", "ProductsItems")]
+[QueryProperty("NuevosProductos", "NewProductsItems")]
+[QueryProperty("ProductosMujer", "WomanProducts")]
+
 public partial class ProductsViewModel : BaseViewModel
 {
 
-    UserService userService;
-
     ProductRepository productRepository;
-    public ObservableCollection<User> Users { get; } = new();
-
-    public ObservableCollection<Product> Products { get; } = new();
 
     [ObservableProperty]
     List<Product> productos;
 
+    [ObservableProperty]
+    List<Product> nuevosProductos;
+
+    [ObservableProperty]
+    List<Product> productosMujer;
+    
+
     IConnectivity connectivity;
     IGeolocation geolocation;
 
-    public ProductsViewModel(UserService userService, IConnectivity connectivity, 
+    public ProductsViewModel(IConnectivity connectivity, 
         IGeolocation geolocation, ProductRepository productRepository)
     {
-        Title = "User Finder";
-        this.userService = userService;
+        Title = "Clothes ShowCase";
         this.connectivity = connectivity;
         this.geolocation = geolocation;
         this.productRepository = productRepository;
@@ -39,75 +43,6 @@ public partial class ProductsViewModel : BaseViewModel
     bool isRefreshing;
 
     [RelayCommand]
-    async Task GetClosestUser()
-    {
-        if(IsBusy || Users.Count  == 0) 
-            return;
-
-        try
-        {
-            
-
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-            await Shell.Current.DisplayAlert("!Error",
-                $"Unable to get closest user: {ex.Message}", "OK");
-        }
-    }
-    [RelayCommand]
-    async Task GoToDetailsAsync(User user)
-    {
-        if (user is null)
-            return;
-
-        await Shell.Current.GoToAsync($"{nameof(DetailsPage)}",true,
-            new Dictionary<string, object>
-            {
-                {"MachineUser",user }
-            });
-    }
-
-    //[ICommand]
-    [RelayCommand]
-    async Task GetUsersAsync()
-    {
-        if (IsBusy)
-            return;
-
-        try
-        {
-            if(connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                await Shell.Current.DisplayAlert("Internet Issue!",
-                     $"Check your internet and try again!", "OK");
-                return;
-            }
-            IsBusy = true;
-            var users = await userService.GetUsers();
-
-            if (Users.Count != 0)
-                Users.Clear();
-
-            foreach (var user in users)
-                Users.Add(user);
-            
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-            await Shell.Current.DisplayAlert("Error!", 
-                $"Unable to get Users: {ex.Message}", "OK");
-        }
-        finally
-        {
-            IsBusy = false;
-            IsRefreshing = false;
-        }
-    }
-
-    [RelayCommand]
     async Task GetLoginPage()
     {
         await Shell.Current.GoToAsync($"{nameof(LoginPage)}", true);
@@ -115,12 +50,31 @@ public partial class ProductsViewModel : BaseViewModel
 
     void FillInitProducts()
     {
-        List<Product> productos = productRepository.GetAllProducts();
+        List<Product> productos;
+        List<Product> nuevosProductos;
+        List<Product> productosMujer;
+
+        if (connectivity.NetworkAccess != NetworkAccess.Internet)
+        {
+            //Si no hay conectividad
+            productos = productRepository.GetAllProducts();
+            nuevosProductos = productRepository.GetNewProducts();
+            productosMujer = productRepository.GetWomanProducts();
+        }
+        else { 
+            //si hay llamar a api
+            productos = productRepository.GetAllProducts();
+            nuevosProductos = productRepository.GetNewProducts();
+            productosMujer = productRepository.GetWomanProducts();
+        }
 
         Shell.Current.GoToAsync("//MainPage", false,
             new Dictionary<string, object>
             {
-                {"ProductsItems",productos }
+                {"ProductsItems",productos },
+                {"NewProductsItems",nuevosProductos },
+                {"WomanProducts",productosMujer }
+
             });
     }
 

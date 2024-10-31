@@ -5,7 +5,7 @@
              xmlns:viewmodel ="clr-namespace:MauiAppShowCase.ViewModel"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:DataType="viewmodel:ProductsViewModel"
-             Title ="{Binding Title}"
+             Title ="CLOTHES SHOWCASE"
              ios:Page.UseSafeArea="True"
              x:Class="MauiAppShowCase.View.MainPage">
     <Shell.TitleView >
@@ -17,15 +17,13 @@
 
     <Grid ColumnDefinitions="*"
           ColumnSpacing="0"
-          RowDefinitions="60,auto,*,*"
+          RowDefinitions="60,auto,60,auto,60,auto"
           RowSpacing="0">
-        <Label Grid.Row="0" Text="PRODUCTOS EN VENTA"
+        <Label Grid.Row="0" Text="NOVEDADES"
                VerticalOptions="Center"
             FontAttributes="Bold" Style="{StaticResource LargeLabel}"/>
-        
-        
         <ScrollView Grid.Row="1">
-            <CollectionView ItemsSource="{Binding Productos}"
+            <CollectionView ItemsSource="{Binding NuevosProductos}"
              VerticalOptions="Start"
              ItemsLayout="HorizontalList">
                 <CollectionView.ItemTemplate>
@@ -35,6 +33,77 @@
                             Style="{StaticResource CardView}">
                             <Grid ColumnDefinitions="*"
                                  RowDefinitions="100,25,50">
+                                <Image Grid.Row="0"
+                                     Aspect="AspectFill"
+                                     HeightRequest="100"
+                                     WidthRequest="100"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Source="{Binding Imagen}"/>
+                                <Label Grid.Row="1"
+                                     Text="{Binding Nombre}"
+                                     FontAttributes="Bold" 
+                                     Style="{StaticResource MediumLabel}"/>
+                                <Label Grid.Row="2"
+                                     Text="{Binding PrecioVenta,StringFormat='S/.{0}'}"
+                                     FontAttributes="Bold" 
+                                     Style="{StaticResource SmallLabel}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+        <Label Grid.Row="2" Text="PRODUCTOS EN VENTA"
+            VerticalOptions="Center"
+            FontAttributes="Bold" Style="{StaticResource LargeLabel}"/>
+        <ScrollView Grid.Row="3">
+            <CollectionView ItemsSource="{Binding Productos}"
+                 VerticalOptions="Start"
+                 ItemsLayout="HorizontalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate  x:DataType ="model:Product">
+                        <Frame WidthRequest="150" 
+                            Padding="2"  Margin="2"
+                            Style="{StaticResource CardView}">
+                            <Grid ColumnDefinitions="*"
+                                RowDefinitions="100,25,50">
+                                <Image Grid.Row="0"
+                                     Aspect="AspectFill"
+                                     HeightRequest="100"
+                                     WidthRequest="100"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center"
+                                     Source="{Binding Imagen}"/>
+                                <Label Grid.Row="1"
+                                     Text="{Binding Nombre}"
+                                     FontAttributes="Bold" 
+                                     Style="{StaticResource MediumLabel}"/>
+                                <Label Grid.Row="2"
+                                     Text="{Binding PrecioVenta,StringFormat='S/.{0}'}"
+                                     FontAttributes="Bold" 
+                                     Style="{StaticResource SmallLabel}"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <Label Grid.Row="4" Text="ROPA PARA MUJERES"
+            VerticalOptions="Center"
+            FontAttributes="Bold" Style="{StaticResource LargeLabel}"/>
+        <ScrollView Grid.Row="5">
+            <CollectionView ItemsSource="{Binding ProductosMujer}"
+                 VerticalOptions="Start"
+                 ItemsLayout="HorizontalList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate  x:DataType ="model:Product">
+                        <Frame WidthRequest="150" 
+                            Padding="2"  Margin="2"
+                            Style="{StaticResource CardView}">
+                            <Grid ColumnDefinitions="*"
+                                RowDefinitions="100,25,50">
                                 <Image Grid.Row="0"
                                      Aspect="AspectFill"
                                      HeightRequest="100"
